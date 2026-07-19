@@ -12,6 +12,7 @@ export interface PromptInfo { name: string; description?: string; }
 
 export interface JsonSchema {
   type?: string;
+  description?: string;
   properties?: Record<string, JsonSchema>;
   required?: string[];
   items?: JsonSchema;
