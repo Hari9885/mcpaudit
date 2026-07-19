@@ -1,0 +1,20 @@
+version: "0.1.0"
+updated: "2026-07-19"
+# sec-01: case-insensitive regex flagged inside any description
+injection:
+  - "ignore previous instructions"
+  - "ignore all previous"
+  - "disregard (the|all) (above|previous)"
+  - "do not tell the user"
+  - "do not mention"
+  - "instead of what (the user|you were) asked"
+  - "system prompt"
+  - "you are now"
+  - "reveal (your|the) (instructions|prompt)"
+# sec-05: secret-shaped tokens
+secrets:
+  - "sk-[A-Za-z0-9]{16,}"
+  - "gh[pousr]_[A-Za-z0-9]{20,}"
+  - "AKIA[0-9A-Z]{16}"
+  - "AIza[0-9A-Za-z_\\-]{20,}"
+  - "xox[baprs]-[0-9A-Za-z-]{10,}"
