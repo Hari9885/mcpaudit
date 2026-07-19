@@ -1,0 +1,26 @@
+{
+  "name": "mcpaudit",
+  "version": "0.1.0",
+  "description": "Security, conformance, and quality auditor for MCP servers.",
+  "license": "MIT",
+  "author": "Hari Kumar Reddy (https://github.com/Hari9885)",
+  "type": "module",
+  "bin": { "mcpaudit": "dist/cli.js" },
+  "files": ["dist", "rules"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "commander": "^12.1.0",
+    "yaml": "^2.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "@types/node": "^22.0.0"
+  }
+}
