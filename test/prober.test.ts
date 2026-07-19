@@ -20,4 +20,18 @@ describe("prober", () => {
     expect(f.some((x) => x.ruleId === "conf-04")).toBe(true);
     await close?.();
   });
+
+  it("a merely-slow tool (valid AND invalid both time out) is qual-04, not conf-04", () => {
+    const snapshot = {
+      server: {}, handshakeOk: true, declaredCapabilities: {}, tools: [], resources: [], prompts: [],
+      probes: [{
+        tool: "slow_op", probed: true,
+        validCall: { ok: false, error: "__timeout__", timedOut: true, ms: 10000 },
+        invalidCall: { ok: false, jsonRpcError: false, crashed: false, timedOut: true, ms: 10000 },
+      }],
+    } as const;
+    const f = runProbeRules(snapshot as never, loadPack());
+    expect(f.some((x) => x.ruleId === "conf-04")).toBe(false);
+    expect(f.some((x) => x.ruleId === "qual-04")).toBe(true);
+  });
 });

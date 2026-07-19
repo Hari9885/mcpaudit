@@ -3,7 +3,9 @@ import type { PatternPack } from "./rules/patterns.js";
 import { dummyInput } from "./dummy.js";
 import { withTimeout } from "./connector.js";
 
-const CRASH_RE = /closed|EPIPE|terminated|hang|ECONN|not connected|disconnected/i;
+// A genuine transport death — distinct from a mere timeout ("hang"), which may just
+// be a deliberately slow tool. Timeouts are tracked separately via `timedOut`.
+const CRASH_RE = /closed|EPIPE|terminated|ECONN|not connected|disconnected/i;
 
 export async function probe(client: any, s: AuditSnapshot, opts: { probeUnsafe: boolean; timeout: number }): Promise<ProbeResult[]> {
   const results: ProbeResult[] = [];
@@ -30,22 +32,25 @@ export async function probe(client: any, s: AuditSnapshot, opts: { probeUnsafe: 
 async function callOnce(client: any, name: string, args: Record<string, unknown>, timeout: number) {
   const start = Date.now();
   try {
-    const res = await withTimeout(client.callTool({ name, arguments: args }), timeout, "hang");
+    const res = await withTimeout(client.callTool({ name, arguments: args }), timeout, "__timeout__");
     return { ok: true, bytes: Buffer.byteLength(JSON.stringify(res)), ms: Date.now() - start, text: extractText(res) };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : String(e), ms: Date.now() - start };
+    const msg = e instanceof Error ? e.message : String(e);
+    return { ok: false, error: msg, timedOut: msg === "__timeout__", ms: Date.now() - start };
   }
 }
 
 async function callInvalid(client: any, name: string, args: Record<string, unknown>, timeout: number) {
   const start = Date.now();
   try {
-    await withTimeout(client.callTool({ name, arguments: args }), timeout, "hang");
+    await withTimeout(client.callTool({ name, arguments: args }), timeout, "__timeout__");
     return { ok: true, jsonRpcError: false, crashed: false, ms: Date.now() - start };
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    const timedOut = msg === "__timeout__";
     const crashed = CRASH_RE.test(msg);
-    return { ok: false, jsonRpcError: !crashed, crashed, ms: Date.now() - start };
+    // A JSON-RPC validation error is the healthy outcome: not a crash and not a timeout.
+    return { ok: false, jsonRpcError: !crashed && !timedOut, crashed, timedOut, ms: Date.now() - start };
   }
 }
 
@@ -62,9 +67,13 @@ export function runProbeRules(s: AuditSnapshot, pack: PatternPack): Finding[] {
   for (const p of s.probes) {
     if (!p.probed) continue;
 
-    // conf-04: invalid (or valid) input took the server down instead of a clean JSON-RPC error
+    // conf-04: the server died, OR it hangs on invalid input while answering valid input
+    // fine (asymmetric hang = missing input validation). A tool that is simply slow on
+    // everything is a qual-04 latency finding, not a conformance failure.
     const validCrashed = p.validCall?.ok === false && CRASH_RE.test(p.validCall.error ?? "");
-    if (p.invalidCall?.crashed || validCrashed)
+    const validTimedOut = p.validCall?.timedOut === true;
+    const asymmetricHang = p.invalidCall?.timedOut === true && !validTimedOut;
+    if (p.invalidCall?.crashed || validCrashed || asymmetricHang)
       out.push({ ruleId: "conf-04", category: "conf", severity: "error", target: p.tool,
         message: "Invalid input crashed or hung the server instead of returning a JSON-RPC error." });
 

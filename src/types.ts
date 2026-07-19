@@ -23,8 +23,8 @@ export interface ProbeResult {
   tool: string;
   probed: boolean;
   skippedReason?: string;
-  validCall?: { ok: boolean; error?: string; bytes?: number; ms?: number; text?: string };
-  invalidCall?: { ok: boolean; jsonRpcError: boolean; crashed: boolean; ms?: number };
+  validCall?: { ok: boolean; error?: string; bytes?: number; ms?: number; text?: string; timedOut?: boolean };
+  invalidCall?: { ok: boolean; jsonRpcError: boolean; crashed: boolean; timedOut?: boolean; ms?: number };
 }
 
 export interface AuditSnapshot {
