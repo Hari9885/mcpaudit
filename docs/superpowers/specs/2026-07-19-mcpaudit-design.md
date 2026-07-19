@@ -69,7 +69,7 @@ Primary CI user audits **their own** server, so probing is on by default — but
 - Default: probe only tools with `readOnlyHint: true`.
 - Everything else: skipped with an info finding ("N tools not probed; run with --probe-unsafe if this is your own server").
 - `--probe-unsafe`: probes every tool; prints a red banner first.
-- Probe input: minimal schema-valid dummy values generated from the tool's inputSchema (own tiny generator: fill required fields with type-appropriate placeholders; no external faker dependency).
+- Probe input: minimal schema-valid dummy values generated from the tool's inputSchema (own tiny generator: fill required fields with type-appropriate placeholders; no external faker dependency). **v0.1 scope: flat schemas only** — top-level object with primitive/array-of-primitive properties. Tools with `$ref`, nested objects, or `oneOf`/`anyOf` are skipped with an info finding ("probe skipped: complex schema"), not guessed at.
 - Each probed tool also gets one deliberately invalid call (wrong-type field) to test error handling.
 
 ## Rule pack (v0.1 — 16 rules)
@@ -78,7 +78,7 @@ Primary CI user audits **their own** server, so probing is on by default — but
 - **conf-01** (error) — initialize handshake completes; declared protocol version parses.
 - **conf-02** (error) — every tool inputSchema is valid JSON Schema.
 - **conf-03** (warn) — every required parameter has a description.
-- **conf-04** (error, probe) — invalid input returns a JSON-RPC error, not a crash/hang.
+- **conf-04** (error, probe) — invalid input returns a JSON-RPC error, not a crash/hang. "Hang" = no response within the per-operation `--timeout` (default 10s); "crash" = process exit or transport closed.
 - **conf-05** (warn) — capabilities declared match what listings return (e.g., declares tools but tools/list empty).
 
 ### Security
@@ -96,12 +96,12 @@ Primary CI user audits **their own** server, so probing is on by default — but
 - **qual-03** (warn, probe) — response >100KB for dummy input.
 - **qual-04** (info, probe) — response latency >5s.
 
-Pattern rules (sec-01, sec-02, sec-05 patterns, qual length bounds) live in `rules/patterns.yaml`. Contributors add a YAML entry + a fixture test.
+Pattern rules (sec-01, sec-02, sec-05 patterns, qual length bounds) live in `rules/patterns.yaml`. Contributors add a YAML entry + a fixture test. The pack carries `version` and `updated` (date) fields, printed in the report header so users can see how current their injection-pattern list is. Remote pattern refresh (`--update-patterns` pulling latest pack from GitHub) is a v0.2 item.
 
 ## Scoring
 
 - Start at 100. error −15, warn −5, info −2, floor 0. Per-rule dedup: a rule fires once per target but caps total deduction per rule at 30 (one bad pattern repeated 20× shouldn't zero an otherwise fine server).
-- Grade bands: A ≥90, B ≥80, C ≥70, D ≥60, F below.
+- Grade bands: A ≥90, B ≥80, C ≥70, D ≥60, F below. A ≥90 is deliberately strict — two warnings cost the A. A security tool that hands out As cheaply has no credibility; strictness is the product.
 - `# ponytail:` note: simple linear scoring, revisit weights only after real-world reports look miscalibrated.
 
 ## Error handling
@@ -117,7 +117,7 @@ Pattern rules (sec-01, sec-02, sec-05 patterns, qual length bounds) live in `rul
   - `evil` — injection phrases, zero-width chars, fake secret, read-named tool that writes; expects F + specific rule hits.
   - `sloppy` — missing descriptions, giant description, crash on bad input; expects C/D + specific hits.
 - vitest; every rule asserts against at least one fixture (hit + no-false-positive on `good`).
-- CI (GitHub Actions): typecheck + tests + self-dogfood (audit all three fixtures, assert expected grades).
+- CI (GitHub Actions): typecheck + tests + self-dogfood (audit all three fixtures, assert expected grades). If mcpaudit ever exposes its own MCP interface (e.g., an "audit" tool for agents), CI must audit it too — eat the cooking.
 
 ## Non-goals (v0.1)
 
