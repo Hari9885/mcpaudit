@@ -7,6 +7,9 @@
   "type": "module",
   "bin": { "mcpaudit": "dist/cli.js" },
   "files": ["dist", "rules"],
+  "keywords": ["mcp", "model-context-protocol", "security", "linter", "audit", "ai-agents", "llm"],
+  "repository": { "type": "git", "url": "https://github.com/Hari9885/mcpaudit.git" },
+  "homepage": "https://github.com/Hari9885/mcpaudit#readme",
   "engines": { "node": ">=20" },
   "scripts": {
     "build": "tsc",
