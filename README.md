@@ -42,6 +42,9 @@ No API key, no account, no config file. It talks to your MCP server over stdio a
 npx @hari9885/mcpaudit --stdio "python weather_server.py"
 npx @hari9885/mcpaudit --stdio "node build/index.js"
 
+# audit a remote server over HTTP (Streamable HTTP, falls back to legacy SSE)
+npx @hari9885/mcpaudit --http "https://example.com/mcp"
+
 # check the version
 npx @hari9885/mcpaudit --version
 
@@ -125,7 +128,8 @@ Start at 100. Each finding deducts by severity (error −15, warn −5, info −
 ## Options
 
 ```
---stdio <command>    command that launches the MCP server over stdio (required)
+--stdio <command>    command that launches the MCP server over stdio
+--http <url>         URL of an MCP server (Streamable HTTP, falls back to SSE)
 --min-score <n>      exit 1 if the score is below n (for CI)
 --json | --md        machine-readable / markdown output
 --no-probe           static analysis only

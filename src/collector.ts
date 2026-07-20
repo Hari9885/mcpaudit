@@ -1,4 +1,5 @@
 import { handshake, withTimeout } from "./connector.js";
+import type { Target } from "./connector.js";
 import type { AuditSnapshot, ToolInfo, ResourceInfo, PromptInfo } from "./types.js";
 
 const EMPTY = (err?: string): AuditSnapshot => ({
@@ -6,8 +7,8 @@ const EMPTY = (err?: string): AuditSnapshot => ({
   declaredCapabilities: {}, tools: [], resources: [], prompts: [], probes: [],
 });
 
-export async function collect(command: string, opts: { timeout: number }) {
-  const h = await handshake(command, opts);
+export async function collect(target: string | Target, opts: { timeout: number }) {
+  const h = await handshake(target, opts);
   if (!h.ok || !h.client) return { snapshot: EMPTY(h.error) };
   const client = h.client;
   const caps = h.capabilities ?? {};
