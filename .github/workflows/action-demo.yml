@@ -1,0 +1,24 @@
+name: action-demo
+on: [push, pull_request]
+
+# Dogfoods the composite action in this repo: runs it against the bundled `good`
+# fixture MCP server, requires an A-grade, and produces a score badge artifact.
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - uses: ./
+        with:
+          stdio: "node fixtures/good/server.ts"
+          min-score: "90"
+          badge-file: "mcpaudit-badge.json"
+          version: "0.3.0"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mcpaudit-badge
+          path: mcpaudit-badge.json
