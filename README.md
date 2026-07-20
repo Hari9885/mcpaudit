@@ -12,6 +12,28 @@ When an AI agent installs an MCP server, it trusts that server completely. Tool 
 
 There is no standard tool to check any of this. mcpaudit is that check — run by the **author**, before publishing.
 
+## Install
+
+mcpaudit is a command-line tool (Node ≥20). Pick one:
+
+```bash
+# 1. Zero-install, always latest (recommended)
+npx mcpaudit --stdio "node build/index.js"
+
+# 2. Global install, then use the `mcpaudit` command anywhere
+npm i -g mcpaudit
+mcpaudit --stdio "node build/index.js"
+
+# 3. From source (to hack on it)
+git clone https://github.com/Hari9885/mcpaudit.git
+cd mcpaudit
+npm install
+npm run build
+node dist/cli.js --stdio "node build/index.js"
+```
+
+No API key, no account, no config file. It talks to your MCP server over stdio and prints a report.
+
 ## Quickstart
 
 ```bash
@@ -19,8 +41,30 @@ There is no standard tool to check any of this. mcpaudit is that check — run b
 npx mcpaudit --stdio "python weather_server.py"
 npx mcpaudit --stdio "node build/index.js"
 
+# check the version
+npx mcpaudit --version
+
 # CI gate: exit non-zero if the score drops below a threshold
 npx mcpaudit --stdio "node build/index.js" --min-score 80
+```
+
+## Use it in CI
+
+Fail a pull request if your MCP server regresses below a score:
+
+```yaml
+# .github/workflows/mcp-audit.yml
+name: mcp-audit
+on: [push, pull_request]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - run: npm ci && npm run build
+      - run: npx mcpaudit --stdio "node build/index.js" --min-score 80
 ```
 
 Example report (the bundled `evil` test fixture):

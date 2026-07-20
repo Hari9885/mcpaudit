@@ -9,6 +9,11 @@ export function renderTerminal(r: Report): string {
   lines.push(`mcpaudit report — ${s.server.name ?? "unknown server"}`);
   lines.push("─".repeat(40));
   lines.push(`Score: ${r.score}/100 (${r.grade})`);
+  const errors = r.findings.filter((f) => f.severity === "error").length;
+  const warns = r.findings.filter((f) => f.severity === "warn").length;
+  const infos = r.findings.filter((f) => f.severity === "info").length;
+  const n = s.tools.length;
+  lines.push(`Findings: ${errors} error, ${warns} warn, ${infos} info · ${n} tool${n === 1 ? "" : "s"}`);
   lines.push(`Pattern pack: v${r.patternPackVersion} (${r.patternPackUpdated})`);
   lines.push("");
   for (const cat of ["conf", "sec", "qual"] as const) {

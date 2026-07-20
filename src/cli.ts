@@ -1,14 +1,21 @@
 #!/usr/bin/env node
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { Command } from "commander";
 import { audit } from "./audit.js";
 import { renderTerminal } from "./reporters/terminal.js";
 import { renderJson } from "./reporters/json.js";
 import { renderMarkdown } from "./reporters/markdown.js";
 
+const here = dirname(fileURLToPath(import.meta.url));
+const { version } = JSON.parse(readFileSync(join(here, "..", "package.json"), "utf8")) as { version: string };
+
 const program = new Command();
 program
   .name("mcpaudit")
   .description("Security, conformance, and quality auditor for MCP servers.")
+  .version(version, "-v, --version")
   .requiredOption("--stdio <command>", "command that launches the MCP server over stdio")
   .option("--min-score <n>", "exit 1 if score below n", (v) => parseInt(v, 10))
   .option("--json", "output JSON")
