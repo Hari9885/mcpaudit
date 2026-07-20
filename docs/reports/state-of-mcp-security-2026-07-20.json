@@ -1,0 +1,502 @@
+{
+  "date": "2026-07-20",
+  "results": [
+    {
+      "id": "server-everything",
+      "pkg": "@modelcontextprotocol/server-everything",
+      "runtime": "npm",
+      "command": "npx -y @modelcontextprotocol/server-everything",
+      "score": 88,
+      "grade": "B",
+      "findings": [
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "toggle-subscriber-updates",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "simulate-research-query",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "qual-04",
+          "category": "qual",
+          "severity": "info",
+          "target": "trigger-long-running-operation",
+          "message": "Tool responded in 10000ms (>5s)."
+        }
+      ],
+      "tools": 13
+    },
+    {
+      "id": "server-filesystem",
+      "pkg": "@modelcontextprotocol/server-filesystem",
+      "runtime": "npm",
+      "command": "npx -y @modelcontextprotocol/server-filesystem /var/folders/lt/63bw3fjx6mb9hk_g4xg348h00000gn/T/mcpaudit-scan-OMld0L",
+      "score": 65,
+      "grade": "D",
+      "findings": [
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "read_file",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "read_text_file",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "read_media_file",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "write_file",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "write_file",
+          "message": "Required parameter \"content\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "edit_file",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "edit_file",
+          "message": "Required parameter \"edits\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "create_directory",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "create_directory",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "list_directory",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "list_directory_with_sizes",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "directory_tree",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "move_file",
+          "message": "Required parameter \"source\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "move_file",
+          "message": "Required parameter \"destination\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "search_files",
+          "message": "Required parameter \"path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "search_files",
+          "message": "Required parameter \"pattern\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "get_file_info",
+          "message": "Required parameter \"path\" has no description."
+        }
+      ],
+      "tools": 14
+    },
+    {
+      "id": "server-memory",
+      "pkg": "@modelcontextprotocol/server-memory",
+      "runtime": "npm",
+      "command": "npx -y @modelcontextprotocol/server-memory",
+      "score": 70,
+      "grade": "C",
+      "findings": [
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "create_entities",
+          "message": "Required parameter \"entities\" has no description."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "create_entities",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "create_relations",
+          "message": "Required parameter \"relations\" has no description."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "create_relations",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "add_observations",
+          "message": "Required parameter \"observations\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "delete_observations",
+          "message": "Required parameter \"deletions\" has no description."
+        }
+      ],
+      "tools": 9
+    },
+    {
+      "id": "server-sequential-thinking",
+      "pkg": "@modelcontextprotocol/server-sequential-thinking",
+      "runtime": "npm",
+      "command": "npx -y @modelcontextprotocol/server-sequential-thinking",
+      "score": 95,
+      "grade": "A",
+      "findings": [
+        {
+          "ruleId": "qual-02",
+          "category": "qual",
+          "severity": "warn",
+          "target": "sequentialthinking",
+          "message": "Tool description is 2781 chars (>600); bloats agent context."
+        }
+      ],
+      "tools": 1
+    },
+    {
+      "id": "mcp-server-fetch",
+      "pkg": "mcp-server-fetch",
+      "runtime": "pypi",
+      "command": "uvx mcp-server-fetch",
+      "score": 100,
+      "grade": "A",
+      "findings": [],
+      "tools": 1
+    },
+    {
+      "id": "mcp-server-time",
+      "pkg": "mcp-server-time",
+      "runtime": "pypi",
+      "command": "uvx mcp-server-time",
+      "score": 100,
+      "grade": "A",
+      "findings": [],
+      "tools": 2
+    },
+    {
+      "id": "mcp-server-git",
+      "pkg": "mcp-server-git",
+      "runtime": "pypi",
+      "command": "uvx mcp-server-git --repository /var/folders/lt/63bw3fjx6mb9hk_g4xg348h00000gn/T/mcpaudit-scan-OMld0L/git-repo",
+      "score": 65,
+      "grade": "D",
+      "findings": [
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_status",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_diff_unstaged",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_diff_staged",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_diff",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_diff",
+          "message": "Required parameter \"target\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_commit",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_commit",
+          "message": "Required parameter \"message\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_add",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_add",
+          "message": "Required parameter \"files\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_reset",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_log",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_create_branch",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_create_branch",
+          "message": "Required parameter \"branch_name\" has no description."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "git_create_branch",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_checkout",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_checkout",
+          "message": "Required parameter \"branch_name\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_show",
+          "message": "Required parameter \"repo_path\" has no description."
+        },
+        {
+          "ruleId": "conf-03",
+          "category": "conf",
+          "severity": "warn",
+          "target": "git_show",
+          "message": "Required parameter \"revision\" has no description."
+        }
+      ],
+      "tools": 12
+    },
+    {
+      "id": "mcp-server-sqlite",
+      "pkg": "mcp-server-sqlite",
+      "runtime": "pypi",
+      "command": "uvx mcp-server-sqlite --db-path /var/folders/lt/63bw3fjx6mb9hk_g4xg348h00000gn/T/mcpaudit-scan-OMld0L/test.db",
+      "score": 80,
+      "grade": "B",
+      "findings": [
+        {
+          "ruleId": "sec-03",
+          "category": "sec",
+          "severity": "warn",
+          "target": "read_query",
+          "message": "Tool name implies read-only but description mentions write/delete/send."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "read_query",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "write_query",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        },
+        {
+          "ruleId": "sec-04",
+          "category": "sec",
+          "severity": "warn",
+          "target": "create_table",
+          "message": "Tool appears to modify state but lacks a destructiveHint annotation."
+        }
+      ],
+      "tools": 6
+    }
+  ],
+  "aggregate": {
+    "mean": 83,
+    "median": 88,
+    "min": 65,
+    "max": 100,
+    "gradeCounts": {
+      "A": 3,
+      "B": 2,
+      "C": 1,
+      "D": 2,
+      "F": 0
+    },
+    "topRules": [
+      {
+        "ruleId": "sec-04",
+        "servers": [
+          "server-everything",
+          "server-filesystem",
+          "server-memory",
+          "mcp-server-git",
+          "mcp-server-sqlite"
+        ],
+        "occurrences": 9,
+        "severity": "warn",
+        "category": "sec"
+      },
+      {
+        "ruleId": "conf-03",
+        "servers": [
+          "server-filesystem",
+          "server-memory",
+          "mcp-server-git"
+        ],
+        "occurrences": 37,
+        "severity": "warn",
+        "category": "conf"
+      },
+      {
+        "ruleId": "qual-04",
+        "servers": [
+          "server-everything"
+        ],
+        "occurrences": 1,
+        "severity": "info",
+        "category": "qual"
+      },
+      {
+        "ruleId": "qual-02",
+        "servers": [
+          "server-sequential-thinking"
+        ],
+        "occurrences": 1,
+        "severity": "warn",
+        "category": "qual"
+      },
+      {
+        "ruleId": "sec-03",
+        "servers": [
+          "mcp-server-sqlite"
+        ],
+        "occurrences": 1,
+        "severity": "warn",
+        "category": "sec"
+      }
+    ],
+    "scoredCount": 8,
+    "failedCount": 0
+  }
+}

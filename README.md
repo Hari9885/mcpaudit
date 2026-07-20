@@ -173,6 +173,10 @@ Start at 100. Each finding deducts by severity (error −15, warn −5, info −
 --timeout <ms>       per-operation timeout (default 10000)
 ```
 
+## State of MCP Security
+
+mcpaudit turned on itself: [`scripts/state-of-mcp-security.mjs`](scripts/state-of-mcp-security.mjs) runs the auditor against 8 official MCP reference servers (npm `@modelcontextprotocol/*` + PyPI `mcp-server-*`, no API keys needed) and rolls the results into a report. [Latest run (2026-07-20)](docs/reports/state-of-mcp-security-2026-07-20.md): mean **83/100**, and **5 of 8** reference servers ship state-changing tools with no `destructiveHint` annotation (sec-04). Reproduce it yourself with `node scripts/state-of-mcp-security.mjs`.
+
 ## How you can help
 
 - **Test it** on any MCP server you use. Every weird server you find is a new rule.
