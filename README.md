@@ -71,6 +71,41 @@ jobs:
       - run: npx @hari9885/mcpaudit --stdio "node build/index.js" --min-score 80
 ```
 
+### GitHub Action
+
+Or use the packaged action:
+
+```yaml
+# .github/workflows/mcp-audit.yml
+name: mcp-audit
+on: [push, pull_request]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm run build
+      - uses: Hari9885/mcpaudit@v0.3.0
+        with:
+          stdio: "node build/index.js"
+          min-score: "80"
+          badge-file: ".github/mcpaudit-badge.json"   # optional, see below
+```
+
+Inputs: `stdio` **or** `http`, `min-score`, `badge-file`, `probe` (`default`|`none`|`unsafe`), `version`.
+
+### Score badge
+
+Pass `--badge <file>` (CLI) or `badge-file` (action) to write a [shields.io endpoint](https://shields.io/badges/endpoint-badge) JSON. Commit that file (or push it to a branch from CI), then drop this in your server's README — swap `OWNER/REPO/BRANCH`:
+
+```markdown
+![mcpaudit](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/OWNER/REPO/main/.github/mcpaudit-badge.json)
+```
+
+It renders your latest score and grade, colored by grade (A green → F red):
+
+`mcpaudit | 88/100 (B)`
+
 Example report (the bundled `evil` test fixture):
 
 ```
@@ -132,6 +167,7 @@ Start at 100. Each finding deducts by severity (error −15, warn −5, info −
 --http <url>         URL of an MCP server (Streamable HTTP, falls back to SSE)
 --min-score <n>      exit 1 if the score is below n (for CI)
 --json | --md        machine-readable / markdown output
+--badge <file>       write a shields.io endpoint JSON (score badge) to this file
 --no-probe           static analysis only
 --probe-unsafe       probe ALL tools, not just read-only ones
 --timeout <ms>       per-operation timeout (default 10000)

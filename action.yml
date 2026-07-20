@@ -1,0 +1,52 @@
+name: "mcpaudit"
+description: "Audit an MCP server for security, conformance, and quality — fail CI below a score."
+branding:
+  icon: "shield"
+  color: "green"
+
+inputs:
+  stdio:
+    description: "Command that launches the MCP server over stdio (provide this or http)."
+    required: false
+  http:
+    description: "URL of an MCP server (Streamable HTTP, falls back to SSE)."
+    required: false
+  min-score:
+    description: "Fail the job if the score is below this (0–100)."
+    required: false
+  badge-file:
+    description: "Write a shields.io endpoint JSON (score badge) to this path."
+    required: false
+  probe:
+    description: "Probing mode: default | none | unsafe."
+    required: false
+    default: "default"
+  version:
+    description: "Version of @hari9885/mcpaudit to run."
+    required: false
+    default: "0.3.0"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+    - shell: bash
+      env:
+        MCPA_STDIO: ${{ inputs.stdio }}
+        MCPA_HTTP: ${{ inputs.http }}
+        MCPA_MIN: ${{ inputs.min-score }}
+        MCPA_BADGE: ${{ inputs.badge-file }}
+        MCPA_PROBE: ${{ inputs.probe }}
+        MCPA_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        FLAGS=()
+        if [ -n "$MCPA_STDIO" ]; then FLAGS+=(--stdio "$MCPA_STDIO"); fi
+        if [ -n "$MCPA_HTTP" ]; then FLAGS+=(--http "$MCPA_HTTP"); fi
+        if [ -n "$MCPA_MIN" ]; then FLAGS+=(--min-score "$MCPA_MIN"); fi
+        if [ -n "$MCPA_BADGE" ]; then FLAGS+=(--badge "$MCPA_BADGE"); fi
+        if [ "$MCPA_PROBE" = "none" ]; then FLAGS+=(--no-probe); fi
+        if [ "$MCPA_PROBE" = "unsafe" ]; then FLAGS+=(--probe-unsafe); fi
+        npx -y "@hari9885/mcpaudit@${MCPA_VERSION}" "${FLAGS[@]}"

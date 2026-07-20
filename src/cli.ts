@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { Command } from "commander";
@@ -7,6 +7,7 @@ import { audit } from "./audit.js";
 import { renderTerminal } from "./reporters/terminal.js";
 import { renderJson } from "./reporters/json.js";
 import { renderMarkdown } from "./reporters/markdown.js";
+import { renderBadge } from "./reporters/badge.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const { version } = JSON.parse(readFileSync(join(here, "..", "package.json"), "utf8")) as { version: string };
@@ -21,6 +22,7 @@ program
   .option("--min-score <n>", "exit 1 if score below n", (v) => parseInt(v, 10))
   .option("--json", "output JSON")
   .option("--md", "output markdown")
+  .option("--badge <file>", "write a shields.io endpoint JSON (score badge) to this file")
   .option("--no-probe", "static analysis only")
   .option("--probe-unsafe", "probe ALL tools, not just read-only ones")
   .option("--timeout <ms>", "per-operation timeout", (v) => parseInt(v, 10), 10000)
@@ -33,6 +35,7 @@ program
     if (opts.probeUnsafe)
       process.stderr.write("\x1b[31m! --probe-unsafe: every tool will be CALLED. Only use on servers you trust.\x1b[0m\n");
     const report = await audit(target, { timeout: opts.timeout, probe: opts.probe !== false, probeUnsafe: !!opts.probeUnsafe });
+    if (opts.badge) writeFileSync(opts.badge, renderBadge(report));
     const out = opts.json ? renderJson(report) : opts.md ? renderMarkdown(report) : renderTerminal(report);
     process.stdout.write(out + "\n");
     // Explicit exit: a spawned stdio child can leave an open handle that keeps the
