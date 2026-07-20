@@ -1,7 +1,8 @@
 # mcpaudit
 
-**A security, conformance, and quality auditor for MCP servers. `npx mcpaudit` tells you whether an MCP server is safe to plug into your agent — before you ship it.**
+**A security, conformance, and quality auditor for MCP servers. `npx @hari9885/mcpaudit` tells you whether an MCP server is safe to plug into your agent — before you ship it.**
 
+[![npm](https://img.shields.io/npm/v/@hari9885/mcpaudit)](https://www.npmjs.com/package/@hari9885/mcpaudit)
 [![ci](https://github.com/Hari9885/mcpaudit/actions/workflows/ci.yml/badge.svg)](https://github.com/Hari9885/mcpaudit/actions/workflows/ci.yml)
 
 ---
@@ -18,10 +19,10 @@ mcpaudit is a command-line tool (Node ≥20). Pick one:
 
 ```bash
 # 1. Zero-install, always latest (recommended)
-npx mcpaudit --stdio "node build/index.js"
+npx @hari9885/mcpaudit --stdio "node build/index.js"
 
-# 2. Global install, then use the `mcpaudit` command anywhere
-npm i -g mcpaudit
+# 2. Global install — then the command is just `mcpaudit`
+npm i -g @hari9885/mcpaudit
 mcpaudit --stdio "node build/index.js"
 
 # 3. From source (to hack on it)
@@ -38,14 +39,14 @@ No API key, no account, no config file. It talks to your MCP server over stdio a
 
 ```bash
 # audit a server launched over stdio
-npx mcpaudit --stdio "python weather_server.py"
-npx mcpaudit --stdio "node build/index.js"
+npx @hari9885/mcpaudit --stdio "python weather_server.py"
+npx @hari9885/mcpaudit --stdio "node build/index.js"
 
 # check the version
-npx mcpaudit --version
+npx @hari9885/mcpaudit --version
 
 # CI gate: exit non-zero if the score drops below a threshold
-npx mcpaudit --stdio "node build/index.js" --min-score 80
+npx @hari9885/mcpaudit --stdio "node build/index.js" --min-score 80
 ```
 
 ## Use it in CI
@@ -64,7 +65,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: "22" }
       - run: npm ci && npm run build
-      - run: npx mcpaudit --stdio "node build/index.js" --min-score 80
+      - run: npx @hari9885/mcpaudit --stdio "node build/index.js" --min-score 80
 ```
 
 Example report (the bundled `evil` test fixture):
@@ -113,8 +114,8 @@ Some checks (conf-04, sec-06, qual-03/04) require actually **calling** tools. By
 If you're auditing **your own** server and want full coverage:
 
 ```bash
-npx mcpaudit --stdio "node build/index.js" --probe-unsafe   # calls EVERY tool
-npx mcpaudit --stdio "node build/index.js" --no-probe        # static analysis only
+npx @hari9885/mcpaudit --stdio "node build/index.js" --probe-unsafe   # calls EVERY tool
+npx @hari9885/mcpaudit --stdio "node build/index.js" --no-probe        # static analysis only
 ```
 
 ## Scoring
