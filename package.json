@@ -1,6 +1,6 @@
 {
   "name": "@hari9885/mcpaudit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Security, conformance, and quality auditor for MCP servers.",
   "license": "MIT",
   "author": "Hari Kumar Reddy (https://github.com/Hari9885)",
