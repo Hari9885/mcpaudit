@@ -15,3 +15,8 @@ jobs:
           npm run build
           node dist/cli.js --stdio "node fixtures/good/server.ts" | grep -E "\(A\)"
           node dist/cli.js --stdio "node fixtures/evil/server.ts" | grep -E "\(F\)"
+      - name: badge output is a valid shields endpoint
+        run: |
+          node dist/cli.js --stdio "node fixtures/evil/server.ts" --badge badge.json > /dev/null
+          grep -q '"schemaVersion":1' badge.json
+          grep -q '45/100 (F)' badge.json
