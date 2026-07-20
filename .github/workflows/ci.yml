@@ -9,6 +9,7 @@ jobs:
         with: { node-version: "22" }
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run build
       - run: npm test
       - name: self-dogfood (fixtures must grade as expected)
         run: |
