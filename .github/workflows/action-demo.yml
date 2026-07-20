@@ -12,6 +12,10 @@ jobs:
         with:
           node-version: "22"
       - run: npm ci
+      # Build so the local checkout (same package name) is runnable — inside this repo
+      # npx resolves the local package, not the registry. A real consumer's repo has no
+      # such name collision and npx fetches @hari9885/mcpaudit from npm normally.
+      - run: npm run build
       - uses: ./
         with:
           stdio: "node fixtures/good/server.ts"
