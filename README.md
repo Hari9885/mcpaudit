@@ -192,3 +192,5 @@ mcpaudit turned on itself: [`scripts/state-of-mcp-security.mjs`](scripts/state-o
 ## License
 
 MIT © 2026 Hari Kumar Reddy · [github.com/Hari9885](https://github.com/Hari9885)
+
+Built with help of Claude.
